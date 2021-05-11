@@ -51,8 +51,8 @@ LOG_MODULE_REGISTER(gui);
 
 char count[5];
 int counter = 0, speed_now = -1;
-char speed[15], timer[20], minc[5], secc[5], msecc[5], distancec[10], foo[10], traveled_distancec[40], metersc[20], kmetersc[20],lap_msecc[5],lap_secc[5],lap_minc[5],lap[20];
-int min = 0, sec = 0, msec = 0,lap_msec,lap_sec,lap_min;
+char speed[15], timer[20], minc[5], secc[5], msecc[5], distancec[10], foo[10], traveled_distancec[40], metersc[20], kmetersc[20], lap_msecc[5], lap_secc[5], lap_minc[5], lap[20];
+int min = 0, sec = 0, msec = 0, lap_msec, lap_sec, lap_min;
 int i = 0, ret;
 int traveled_distance = 0 /* i would like to save this but idk*/, meters = 0, kmeters = 0;
 bool run_timmer = false, reset_timmer = false;
@@ -70,7 +70,7 @@ K_MSGQ_DEFINE(m_gui_cmd_queue, sizeof(gui_message_t), 8, 4);
 // Define a timer to update the GUI periodically
 
 char *on_off_strings[2] = {"On", "Off"};
-char *bluetooth_statuses[6] = {"--","Ititialised","Connected","Sending data","Reciving data","Disconected"};
+char *bluetooth_statuses[6] = {"--", "Ititialised", "Connected", "Sending data", "Reciving data", "Disconected"};
 
 // GUI objects
 lv_obj_t *background;
@@ -80,7 +80,7 @@ lv_obj_t *lap_text;
 lv_obj_t *lap_data;
 lv_obj_t *distance_text;
 lv_obj_t *distance_container;
-lv_obj_t *bt_status_text,*bt_status;
+lv_obj_t *bt_status_text, *bt_status;
 lv_obj_t *timer_block;
 lv_obj_t *text_timer_block;
 lv_obj_t *speed_block;
@@ -193,9 +193,9 @@ static void on_button1(lv_obj_t *btn, lv_event_t event) {
   }
   if (btn == btn4) {
     if (event == LV_EVENT_PRESSED) {
-      lap_msec=msec;
-      lap_sec=sec;
-      lap_min=min;
+      lap_msec = msec;
+      lap_sec = sec;
+      lap_min = min;
       reset_timmer = !reset_timmer;
 
       if (m_gui_callback) {
@@ -230,7 +230,7 @@ static void init_styles(void) {
   lv_style_init(&style_con_bg);
   lv_style_copy(&style_con_bg, &style_header);
   lv_style_set_bg_color(&style_con_bg, LV_STATE_DEFAULT, LV_COLOR_MAKE(0xff, 0x3f, 0x34));
-  
+
   lv_style_set_bg_opa(&style_con_bg, LV_STATE_DEFAULT, LV_OPA_50);
   lv_style_set_radius(&style_header, LV_STATE_DEFAULT, 4);
 
@@ -290,7 +290,7 @@ static void init_styles(void) {
   lv_style_set_border_color(&style_btn, LV_STATE_FOCUSED | LV_STATE_PRESSED, LV_COLOR_NAVY);
 
   /*Set the text style*/
-  lv_style_set_text_color(&style_btn, LV_STATE_DEFAULT, LV_COLOR_MAKE(255,255,255));
+  lv_style_set_text_color(&style_btn, LV_STATE_DEFAULT, LV_COLOR_MAKE(255, 255, 255));
   lv_style_set_text_font(&style_btn, LV_STATE_DEFAULT, &calibri_20);
 
   /*Make the button smaller when pressed*/
@@ -401,7 +401,7 @@ void init_blinky_gui(char speed[8], char time[8]) {
   lv_label_set_text(data_text, "--.--* --.--*");
   lv_label_set_align(data_text, LV_LABEL_ALIGN_CENTER);
 
-    data = lv_label_create(lv_scr_act(), NULL);
+  data = lv_label_create(lv_scr_act(), NULL);
   lv_obj_add_style(data, LV_LABEL_PART_MAIN, &style_header);
   lv_label_set_long_mode(data, LV_LABEL_LONG_DOT);
   lv_obj_set_pos(data, 161, 147);
@@ -421,7 +421,7 @@ void init_blinky_gui(char speed[8], char time[8]) {
         */
 
   btn1 = lv_btn_create(lv_scr_act(), NULL); /*Add a button the current screen*/
-  lv_obj_set_pos(btn1, 160, 200);             /*Set its position*/
+  lv_obj_set_pos(btn1, 160, 200);           /*Set its position*/
   lv_obj_set_size(btn1, 80, 40);            /*Set its size*/
   //lv_obj_reset_style_list(btn1, LV_BTN_PART_MAIN);         /*Remove the styles coming from the theme*/
   lv_obj_add_style(btn1, LV_BTN_PART_MAIN, &style_btn);
@@ -443,7 +443,7 @@ void init_blinky_gui(char speed[8], char time[8]) {
   lv_obj_set_event_cb(btn2, on_button1);
 
   btn3 = lv_btn_create(lv_scr_act(), NULL);        /*Add a button the current screen*/
-  lv_obj_set_pos(btn3, 0, 200);                  /*Set its position*/
+  lv_obj_set_pos(btn3, 0, 200);                    /*Set its position*/
   lv_obj_set_size(btn3, 80, 40);                   /*Set its size*/
   lv_obj_reset_style_list(btn3, LV_BTN_PART_MAIN); /*Remove the styles coming from the theme*/
   lv_obj_add_style(btn3, LV_BTN_PART_MAIN, &style_btn);
@@ -504,10 +504,10 @@ void update_distance() {
   memset(traveled_distancec, 0, 40);
 }
 
-void update_lap_time(){
-  itoa(lap_msec/10,lap_msecc,10);
-  itoa(lap_sec,lap_secc,10);
-  itoa(lap_min,lap_minc,10);
+void update_lap_time() {
+  itoa(lap_msec / 10, lap_msecc, 10);
+  itoa(lap_sec, lap_secc, 10);
+  itoa(lap_min, lap_minc, 10);
   strcat(lap, lap_minc);
   strcat(lap, ":");
   if (lap_sec < 10)
@@ -523,7 +523,6 @@ void update_lap_time(){
   memset(lap_minc, 0, 5);
   memset(lap_msecc, 0, 5);
 }
-
 
 void update_screen_values() {
   update_speed_value();
@@ -663,7 +662,6 @@ void gui_run(void) {
   }
 
   init_styles();
-
   init_blinky_gui("-- Km/H", "-:--:--");
   k_sleep(K_MSEC(1000));
   display_blanking_off(display_dev);
@@ -674,10 +672,7 @@ void gui_run(void) {
   k_timer_start(&my_timer1, K_MSEC(10), K_MSEC(10));
 
   while (true) {
-
     lv_task_handler();
-
-    k_sleep(K_MSEC(10));
   }
 }
 
